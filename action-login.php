@@ -7,6 +7,7 @@ $userid = "root";
 $password = "";
 $database = "etes";
 
+
 $connect = mysql_connect("localhost", $userid, $password);
 @mysql_select_db($database) or ("Database not found");
 
@@ -23,7 +24,7 @@ $serveruser = $row["userid"];
 $serverpass = $rowpass["password"];
 
 if($serveruser && $serverpass){
-	if(!$result){
+	if(!$result && !$resultpass){
 		die("Username or password is invalid");
 	}
 	if(($inputpass == $serverpass) && ($inputuser == $serveruser)){
@@ -40,15 +41,6 @@ $cookie_name = "user";
 $cookie_value = $_POST["usr"];
 setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
 
-
-if(!isset($_COOKIE[$cookie_name])) {
-     echo "Cookie named '" . $cookie_name . "' is not set!";
-} else {
-     echo "Cookie '" . $cookie_name . "' is set!<br>";
-     echo "Value is: " . $_COOKIE[$cookie_name];
-}
-
-echo "You might have to reload the page to see the value of the cookie."
 ?>
 
 

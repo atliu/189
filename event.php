@@ -13,6 +13,8 @@ $connect = mysql_connect($servername, $username, $password);
 @mysql_select_db($database) or ("Database not found");
 
 $id = $_GET['id'];
+$query1 = "SELECT `SellerID` FROM `tickets`";
+$result1 = mysql_query($query1); 
 $query = "SELECT * FROM `tickets` WHERE TicketID='{$id}'";
 $result = mysql_query($query);
 
@@ -101,7 +103,6 @@ table {
       <td>DATE </td>
       <td>SEAT NUMBER </td>
       <td>PRICE </td>
-      <td>QUANTITY </td>
       <td>TICKETID </td>
       <td>SELLERID </td>
   </tr>
@@ -114,22 +115,24 @@ table {
             echo "<td>" . $row["date"] . "</td>";
             echo "<td>" . $row["SeatNum"]. "</td>";
             echo "<td>" . $row["Price"] . "</td>";
-            echo "<td>" . $row["Quantity"]. "</td>";
             echo "<td>" . $row["TicketID"] . "</td>";
-            echo "<td>" . $row["SellerID"]. "</td>";  
+            echo "<td>" . $row["SellerID"]. "</td>"; 
+
         ?>
   </tbody>
   </table>
   <br>
-
+  
 <form action="confirmation.php" align="center" method="post">
-  Confirm Username:
-  <input type="text" name="usr">
+  Confirm your userid and the sellerid:<br>
+  <input type="text" name="usr" placeholder="your userid">
+  <input type="text" name="seller" placeholder="sellerid">
   <br><br>
   <input type="submit" value="Buy Now!"><br>
+
 </form>
 
-           
+         
 
 
 </body>

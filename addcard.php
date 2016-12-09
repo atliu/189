@@ -1,6 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
+<?php
+
+$user=$_POST["usr"];
+$name=$_POST["name"];
+$card=$_POST["card"];
+$expd=$_POST["date"];
+$secur=$_POST["code"];
+
+
+
+$database= "etes";
+$password="";
+$username="root";
+
+if($user&&$name&&$card&&$expd&&$secur){
+
+ $connect = mysql_connect("localhost", $username, $password);
+ @mysql_select_db($database, $connect) or ("Database not found");
+
+ mysql_query("INSERT INTO `drivers`(`user`, `name`, `cardnum`, `expiration`, `security`) VALUES ('$user', '$name', '$card', '$expd', '$secur')");
+
+ mysql_close($connect);
+
+ header("Location: googleapi.php");
+} else{
+ echo "Must fill out all requirements";
+
+}
+
+?> 
+
 <head>
 
     <meta charset="utf-8">
@@ -31,6 +63,7 @@
         border-radius: 0;
     }
     </style>
+
 
 </head>
 
@@ -72,59 +105,52 @@
     </nav>
 
 
+
 <div align = "center">
-<form action = "action-tickets.php" method="post">
+<form action = "googleapi.php" method="post">
 <div class="form-group row">
-  <label for="example-text-input" class="col-xs-2 col-form-label">Event Title</label>
+  <label for="example-text-input" class="col-xs-2 col-form-label">Username</label>
   <div class="col-xs-10">
-    <input class="form-control" type="text" name="event" placeholder="Write event title here...">
+    <input class="form-control" type="text" name="usr" placeholder="Write username here...">
   </div>
 </div>
 <div class="form-group row">
-  <label for="example-search-input" class="col-xs-2 col-form-label">Venue</label>
+  <label for="example-text-input" class="col-xs-2 col-form-label">Name</label>
   <div class="col-xs-10">
-    <input class="form-control" type="text" name="venue" placeholder="Write venue here...">
+    <input class="form-control" type="text" name="name" placeholder="Write name on card here...">
   </div>
 </div>
 <div class="form-group row">
-  <label for="example-datetime-local-input" class="col-xs-2 col-form-label">Event Time</label>
+  <label for="example-search-input" class="col-xs-2 col-form-label">Credit Card Number</label>
   <div class="col-xs-10">
-    <input class="form-control" type="datetime-local" name="time" placeholder="Write event date and time here...">
+    <input class="form-control" type="int" name="card" placeholder="Write card number here...">
   </div>
 </div>
 <div class="form-group row">
-  <label for="example-email-input" class="col-xs-2 col-form-label">Seat Number</label>
+  <label for="example-datetime-local-input" class="col-xs-2 col-form-label">Expiration Date</label>
   <div class="col-xs-10">
-    <input class="form-control" type="text" name="seat" placeholder="Write seat number here...">
+    <input class="form-control" type="text" name="date" placeholder="Write expiration date here...">
   </div>
 </div>
 <div class="form-group row">
-  <label for="example-url-input" class="col-xs-2 col-form-label">Price per Ticker</label>
+  <label for="example-email-input" class="col-xs-2 col-form-label">Security Code</label>
   <div class="col-xs-10">
-    <input class="form-control" type="number" name="price" placeholder="Write price here...">
-  </div>
+    <input class="form-control" type="text" name="code" placeholder="Write security code here...">
+  </div><br>
+  <div align="center"><br><br>
+    <input type="submit" value="Buy">         
 </div>
-<div class="form-group row">
-  <label for="example-tel-input" class="col-xs-2 col-form-label">TicketID</label>
-  <div class="col-xs-10">
-    <input class="form-control" type="text" name="ticketid" placeholder="Write the ticketid here...">
-  </div>
 </div>
-<div class="form-group row">
-  <label for="example-password-input" class="col-xs-2 col-form-label">Your userID<br>(You will be shown as the seller)</label>
-  <div class="col-xs-10">
-    <input class="form-control" type="text" name="userid" placeholder="Write your userid here...">
-  </div>
-</div>
-<div align="center">
-    <input type="submit" value="Post my ticket">         
-</div>
+
+
+<br><br>
+
+  <input type="text" name="seller" placeholder="sellerid">
+  <br><br>
+  <input type="submit" value="Buy Now!"><br>
+
+
+
 </form>
-</div>
-
-
-
-
-
-    </body>
-    </html>
+</body>
+</html>

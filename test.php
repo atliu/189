@@ -1,22 +1,26 @@
 <?php
-$inputuser = $_POST["usr"];
-$inputpass = $_POST["pass"];
-$userid = "root";
-$password = "";
-$database = "etes";
+$event = $_POST["event"];
+$venue = $_POST["venue"];
 
-$connect = mysql_connect("localhost", $userid, $password);
-@mysql_select_db($database) or ("Database not found");
+$database= "etes";
+$password="";
+$user="root";
 
-$query = "SELECT * FROM `users` WHERE `userid` = '$inputuser'";
-$querypass = "SELECT * FROM `users` WHERE `password` = '$inputpass'";
+if($event){
 
-$result = mysql_query($query);
-$resultpass = mysql_query($querypass);
+	$connect = mysql_connect("localhost", $user, $password);
+	@mysql_select_db($database, $connect) or ("Database not found");
+ 
+	mysql_query("INSERT INTO `tickets`(`Event`, `Venue`) VALUES ('$event' , '$venue')");
 
-$row = mysql_fetch_array($result);
-$rowpass = mysql_fetch_array($resultpass);
+	echo "ticket created";
+	echo $event;
 
-echo $row["userid"];
+	// mysql_close($connect);
+
+	// header("Location: home.php");
+} else{
+	echo "Must fill out all requirements";
+}
 
 ?>

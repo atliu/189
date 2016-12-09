@@ -113,33 +113,31 @@ table {
       <td>DATE </td>
       <td>SEAT NUMBER </td>
       <td>PRICE </td>
-      <td>QUANTITY </td>
       <td>TICKETID </td>
       <td>SELLERID </td>
   </tr>
   </thead>
   <tbody>
         <?php
-            $row = mysql_fetch_assoc($result);
+            if(mysql_num_rows($result) > 0){
+                while($row = mysql_fetch_assoc($result)){
             echo "<td>" . $row["Event"] . "</td>";
             echo "<td>" . $row["Venue"]. "</td>";
             echo "<td>" . $row["date"] . "</td>";
             echo "<td>" . $row["SeatNum"]. "</td>";
             echo "<td>" . $row["Price"] . "</td>";
-            echo "<td>" . $row["Quantity"]. "</td>";
             echo "<td>" . $row["TicketID"] . "</td>";
-            echo "<td>" . $row["SellerID"]. "</td>";  
+            echo "<td>" . $row["SellerID"]. "</td>";
+            echo "<td>" . "<a href='event.php?id={$row['TicketID']}'><input type='button' value='Buy Now'></a>"  . "</td>"; 
+            echo "</tr>";
+            } 
+        }
         ?>
   </tbody>
   </table>
   <br>
 
-<form action="confirmation.php" align="center" method="post">
-  Confirm Username:
-  <input type="text" name="usr">
-  <br><br>
-  <input type="submit" value="Buy Now!"><br>
-</form>
+
 
            
 

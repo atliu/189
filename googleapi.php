@@ -1,72 +1,138 @@
-
+<!DOCTYPE html>
+<html lang="en">
 
 <?php
+
+
+$seller = $_POST["seller"];
+$user=$_POST["usr"];
+
 $servername = "localhost";
 $username = "root";
 $password = "";
 $database = "etes";
 
 
-// $connect = mysql_connect($servername, $username, $password);
-// @mysql_select_db($database) or ("Database not found");
+if($user){
+  //&&$name&&$card&&$expd&&$secur
+$connect = mysql_connect($servername, $username, $password);
+@mysql_select_db($database) or ("Database not found");
 
-// $id = $_GET['user'];
-// $query = "SELECT `address`, `city`, `state` FROM `users` WHERE userid='{$id}'";
-// $buyerAddress = mysql_query($query);
+$cookie_name = "sell";
+$cookie_value = $_POST["seller"];
+setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
 
-// mysql_close();
-$buyerAddress = "Antioch";
-$sellerAddress = "San Francisco";
+$query = "SELECT * FROM `users` WHERE userid='{$user}'";
+$result = mysql_query($query);
+$row = mysql_fetch_assoc($result);
+           
+$query1 = "SELECT * FROM `users` WHERE userid='{$_COOKIE[$cookie_name]}'";    //$_COOKIE[$cookie_name]
+$result1 = mysql_query($query1);
+$row1 = mysql_fetch_assoc($result1);
+
+$buyerAddress = $row["address"].$row["city"];
+$sellerAddress = $row1["address"].$row1["city"];
+
+mysql_close();
+}
 
 ?>
 
 <!DOCTYPE html>
 <html>
   <head>
+      <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>ETES - Events</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/shop-item.css" rel="stylesheet">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <title>Final Page</title>
     <style>
       #right-panel {
         font-family: 'Roboto','sans-serif';
-        line-height: 20px;
-        padding-left: 5px;
+        line-height: 1.px;
+        padding-left: 10px;
       }
 
       #right-panel select, #right-panel input {
-        font-size: 10px;
+        font-size:5px;
       }
 
-      #right-panel select {
-        width: 50%;
-      }
 
       #right-panel i {
-        font-size: 12px;
+        font-size: 7px;
       }
       html, body {
         height: 100%;
-        margin: 0;
+        margin: 10px;
         padding: 0;
       }
       #map {
-        height: 80%;
-        float: left;
-        width: 63%;
         height: 100%;
+        float: left;
+        width: 40%;
+        height: 60%;
       }
       #right-panel {
-        float: right;
-        width: 34%;
+        float: left;
+        width: 80%;
         height: 100%;
       }
       .panel {
-        height: 100%;
+        height: 80%;
         overflow: auto;
       }
     </style>
   </head>
   <body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="text-align:right">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="home.php">Electronic Ticket Exchange Service</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="mainpage.php">Events</a>
+                    </li>
+                    <li>
+                        <a href="tickets.html">Post Tickets</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="index.php">Sign out</a>
+                    </li>
+
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+        <header class="jumbotron hero-spacer" align="center">
+            <br>
+              Confirmation 
+        </header>
+
+
+        <!-- Start of google api -->
     <div id="map"></div>
     <div id="right-panel">
       <p>Total Distance: <span id="total"></span></p>
@@ -127,5 +193,7 @@ $sellerAddress = "San Francisco";
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCllZgQfYIMTDEaAUFmXw2oLwY99DYBW38&callback=initMap">
     </script>
+    
   </body>
 </html>
+
