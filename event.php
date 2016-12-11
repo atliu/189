@@ -117,8 +117,10 @@ table {
             echo "<td>" . $row["Price"] . "</td>";
             echo "<td>" . $row["TicketID"] . "</td>";
             echo "<td>" . $row["SellerID"]. "</td>"; 
-
-        ?>
+            $cookie_name1 = "ticketid";
+            $cookie_value1 = $row["TicketID"];
+            setcookie($cookie_name1, $cookie_value1, time() + (86400 * 30), "/"); // 86400 = 1 day
+       ?>
   </tbody>
   </table>
   <br>

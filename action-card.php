@@ -1,35 +1,12 @@
 <?php
-
 $user=$_POST["usr"];
 $name=$_POST["name"];
 $card=$_POST["card"];
 $expd=$_POST["date"];
 $secur=$_POST["code"];
-
-
-
-// $database= "etes";
-// $password="";
-// $username="root";
-
-// if($user&&$name&&$card&&$expd&&$secur){
-
-// 	$connect = mysql_connect("localhost", $username, $password);
-// 	@mysql_select_db($database, $connect) or ("Database not found");
-
-// 	mysql_query("INSERT INTO `drivers`(`user`, `name`, `cardnum`, `expiration`, `security`) VALUES ('$user', '$name', '$card', '$expd', '$secur')");
-
-// 	mysql_close($connect);
-
-// 	header("Location: googleapi.php");
-// } else{
-// 	echo "Must fill out all requirements";
-
-// }
-
-//?>
-<?php
-
+$cookie_name = "sell";
+$cookie_name1 = "ticketid";
+$cookie_name2 = "user";
 
 $servername = "localhost";
 $username = "root";
@@ -42,10 +19,6 @@ if($user){
 $connect = mysql_connect($servername, $username, $password);
 @mysql_select_db($database) or ("Database not found");
 
-$cookie_name = "sell";
-$cookie_value = $_POST["seller"];
-setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
-
 $query = "SELECT * FROM `users` WHERE userid='{$user}'";
 $result = mysql_query($query);
 $row = mysql_fetch_assoc($result);
@@ -53,6 +26,17 @@ $row = mysql_fetch_assoc($result);
 $query1 = "SELECT * FROM `users` WHERE userid='{$_COOKIE[$cookie_name]}'";
 $result1 = mysql_query($query1);
 $row1 = mysql_fetch_assoc($result1);
+
+$query2 = "SELECT * FROM `tickets` WHERE TicketID='{$_COOKIE[$cookie_name1]}'";
+$result2 = mysql_query($query2);
+$row2 = mysql_fetch_assoc($result2);
+
+ mysql_query("INSERT INTO `drivers`(`user`, `name`, `cardnum`, `expiration`, `security`) VALUES ('$user', '$name', '$card', '$expd', '$secur')");
+
+ mysql_query("INSERT INTO `Orders`(`OrderID`, `ticketID`, `sellerid`, `buyerid`) VALUES ('$user', '$_COOKIE[$cookie_name1]', '$_COOKIE[$cookie_name]', '$user')");
+
+$query3 = "SELECT * FROM `Orders` WHERE TicketID='{$_COOKIE[$cookie_name1]}'";
+$result3 = mysql_query($query3);
 
 $buyerAddress = $row1["address"].$row1["city"];
 $sellerAddress = $row["address"].$row["city"];
@@ -158,6 +142,11 @@ mysql_close();
     <div id="right-panel">
       <p>Total Distance: <span id="total"></span></p>
       <p>Total Time: <span id="time"></span></p>
+          <?php
+          echo "Order Number : ";
+          $row3 = mysql_fetch_assoc($result3);
+          echo $row3["OrderID"] ;
+          ?>
     </div>
     <script>
       function initMap() {

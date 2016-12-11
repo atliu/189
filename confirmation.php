@@ -28,6 +28,10 @@ $cookie_name = "sell";
 $cookie_value = $_POST["seller"];
 setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
 
+$cookie_name2 = "user";
+$cookie_value2 = $_POST["usr"];
+setcookie($cookie_name2, $cookie_value2, time() + (86400 * 30), "/"); // 86400 = 1 day
+
 mysql_close();
 
 ?>
